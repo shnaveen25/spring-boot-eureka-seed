@@ -1,0 +1,74 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.2.RELEASE")
+    }
+}
+
+plugins {
+	id 'org.springframework.boot' version '2.2.2.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'distribution'
+	id 'java'
+}
+
+group = 'in.mv.micro'
+sourceCompatibility = '1.8'
+
+def environment = hasProperty('env') ? env : null
+
+distributions {
+    main {
+        if (environment != null) {
+            def envProperties = "config/${environment}"
+            assert project.file(envProperties).exists()
+            sourceSets.main.resources.srcDirs envProperties
+
+            contents {
+                from("config/${environment}") {
+                    into "conf"
+                }
+            }
+        } 
+    }
+}
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+}
+
+ext {
+	set('springCloudVersion', "Hoxton.RELEASE")
+}
+
+configurations {
+	compile.exclude module: 'spring-boot-starter-logging'
+	mapstruct
+}
+
+dependencies {
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+	implementation 'org.springframework.boot:spring-boot-starter-web:2.2.2.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-devtools:2.1.2.RELEASE'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2:2.2.2.RELEASE'
+	implementation 'javax.inject:javax.inject:1'
+	implementation 'core-service:core-service:1.0.0'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+	testCompile 'junit:junit:4.12'
+}
+
+dependencyManagement {
+	imports {
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+	}
+}
+
+test {
+	useJUnitPlatform()
+}

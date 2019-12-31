@@ -1,0 +1,17 @@
+/bin/
+/logs/
+/.gradle/
+build/
+.DS_Store
+.idea/
+.gradle/
+build/
+*.iml
+*.log
+classes/
+.project
+.classpath
+.settings/
+**/.DS_Store
+.settings/org.eclipse.jdt.core.prefs
+../core-micro-service-template/
