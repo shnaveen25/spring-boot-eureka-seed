@@ -4,7 +4,7 @@ Read more about [Eureka](https://github.com/Netflix/eureka/wiki/Eureka-at-a-glan
 
 ## Local Setup.
 
-**core-service** : Project has common classes used in other micro services. (Note : Do not edit existing files.)
+**[core-service](https://github.com/shnaveen25/core-service)** : Project has common classes used in other micro services. (Note : Do not edit existing files.)
 
     ./gradlew clean jar publishToMavenLocal
     
